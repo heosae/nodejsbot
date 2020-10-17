@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const token = process.env.token;
-const welcomeChannelName = "안녕하세요";
-const byeChannelName = "안녕히가세요";
+const welcomeChannelName = "입장_및_퇴장";
+const byeChannelName = "입장_및_퇴장";
 const welcomeChannelComment = "어서오세요.";
 const byeChannelComment = "안녕히가세요.";
 
@@ -17,7 +17,7 @@ client.on("guildMemberAdd", (member) => {
 
   welcomeChannel.send(`<@${newUser.id}> ${welcomeChannelComment}\n`);
 
-  member.addRole(guild.roles.find(role => role.name == "게스트"));
+  member.addRole(guild.roles.find(role => role.name == "시청자"));
 });
 
 client.on("guildMemberRemove", (member) => {
@@ -35,39 +35,6 @@ client.on('message', (message) => {
     return message.reply('pong');
   }
 
-  if(message.content == 'embed') {
-    let img = 'https://cdn.discordapp.com/icons/419671192857739264/6dccc22df4cb0051b50548627f36c09b.webp?size=256';
-    let embed = new Discord.RichEmbed()
-      .setTitle('타이틀')
-      .setURL('http://www.naver.com')
-      .setAuthor('나긋해', img, 'http://www.naver.com')
-      .setThumbnail(img)
-      .addBlankField()
-      .addField('Inline field title', 'Some value here')
-      .addField('Inline field title', 'Some value here', true)
-      .addField('Inline field title', 'Some value here', true)
-      .addField('Inline field title', 'Some value here', true)
-      .addField('Inline field title', 'Some value here1\nSome value here2\nSome value here3\n')
-      .addBlankField()
-      .setTimestamp()
-      .setFooter('나긋해가 만듬', img)
-
-    message.channel.send(embed)
-  } else if(message.content == 'embed2') {
-    let helpImg = 'https://images-ext-1.discordapp.net/external/RyofVqSAVAi0H9-1yK6M8NGy2grU5TWZkLadG-rwqk0/https/i.imgur.com/EZRAPxR.png';
-    let commandList = [
-      {name: 'ping', desc: '현재 핑 상태'},
-      {name: 'embed', desc: 'embed 예제1'},
-      {name: 'embed2', desc: 'embed 예제2 (help)'},
-      {name: '!전체공지', desc: 'dm으로 전체 공지 보내기'},
-    ];
-    let commandStr = '';
-    let embed = new Discord.RichEmbed()
-      .setAuthor('Help of 콜라곰 BOT', helpImg)
-      .setColor('#186de6')
-      .setFooter(`콜라곰 BOT ❤️`)
-      .setTimestamp()
-    
     commandList.forEach(x => {
       commandStr += `• \`\`${changeCommandStringLength(`${x.name}`)}\`\` : **${x.desc}**\n`;
     });
