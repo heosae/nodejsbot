@@ -58,7 +58,7 @@ client.on('message', (message) => {
       return message.reply('채널에서 실행해주세요.');
     }
   }
-});
+;
 
 function checkPermission(message) {
   if(!message.member.hasPermission("MANAGE_MESSAGES")) {
