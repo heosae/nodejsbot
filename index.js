@@ -1,14 +1,14 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const token = process.argv.length == 2 ? process.env.token : "";
-const welcomeChannelName = "입장_및_퇴장";
-const byeChannelName = "입장_및_퇴장";
+const welcomeChannelName = "입구_및_출구";
+const byeChannelName = "입구_및_출구";
 const welcomeChannelComment = "어서오세요.";
 const byeChannelComment = "안녕히가세요.";
 
 client.on('ready', () => {
   console.log('켰다.');
-  client.user.setPresence({ game: { name: '!help' }, status: 'online' })
+  client.user.setPresence({ game: { name: '뭘봐' }, status: 'online' })
 });
 
 client.on("guildMemberAdd", (member) => {
@@ -18,7 +18,7 @@ client.on("guildMemberAdd", (member) => {
 
   welcomeChannel.send(`<@${newUser.id}> ${welcomeChannelComment}\n`);
 
-  member.addRole(guild.roles.find(role => role.name == "시청자"));
+  member.addRole(guild.roles.find(role => role.name == "시청자""));
 });
 
 client.on("guildMemberRemove", (member) => {
@@ -36,7 +36,6 @@ client.on('message', (message) => {
     return message.reply('pong');
   }
 
-
     commandList.forEach(x => {
       commandStr += `• \`\`${changeCommandStringLength(`${x.name}`)}\`\` : **${x.desc}**\n`;
     });
@@ -44,6 +43,11 @@ client.on('message', (message) => {
     embed.addField('Commands: ', commandStr);
 
     message.channel.send(embed)
+  } else if(message.content == '!초대코드') {
+    message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
+      .then(invite => {
+        message.channel.send(invite.url)
+      });
   }
 
   if(message.content.startsWith('!전체공지')) {
@@ -97,7 +101,7 @@ client.on('message', (message) => {
         .catch(console.error)
     }
   }
-;
+});
 
 function checkPermission(message) {
   if(!message.member.hasPermission("MANAGE_MESSAGES")) {
